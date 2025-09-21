@@ -1,6 +1,6 @@
 # Order Processing App (React frontend + Node backend)
 
-An Order Processing App that has a React frontend with live status updates and a Node.js backend that automates order status transitions using mock data.
+A simple order processing interface with live status updates that has a React frontend and a Node.js backend that automates order status transitions using mock data.
 
 ## Quick start
 

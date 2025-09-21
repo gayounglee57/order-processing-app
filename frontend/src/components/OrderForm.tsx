@@ -1,14 +1,38 @@
-import React, { useState } from 'react';
-import { Order } from '../types';
-import { API_BASE, PRODUCTS } from '../constants';
+import React, { useState } from "react";
+import { API_BASE, PRODUCTS } from "../constants";
+import { postJSON } from "../utils";
 
 export default function OrderForm() {
-  const [clientName, setClientName] = useState('');
+  const [clientName, setClientName] = useState("");
   const [productId, setProductId] = useState<number>(PRODUCTS[0].id);
   const [loading, setLoading] = useState(false);
 
+  async function submit(event?: React.FormEvent) {
+    event?.preventDefault();
+    setLoading(true);
+
+    if (!clientName.trim()) {
+      alert("Please enter name");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      await postJSON(`${API_BASE}/orders`, { clientName, productId });
+
+      // Reset form fields
+      setClientName("");
+      setProductId(PRODUCTS[0].id);
+    } catch (err) {
+      console.error(err);
+      alert("Could not create order");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
-    <form className="flex gap-3 items-center">
+    <form onSubmit={submit} className="flex gap-3 items-center">
       <input
         placeholder="Customer name"
         value={clientName}
@@ -32,10 +56,12 @@ export default function OrderForm() {
         type="submit"
         disabled={loading}
         className={`px-4 py-2 rounded text-white font-semibold ${
-          loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
+          loading
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-blue-500 hover:bg-blue-600"
         }`}
       >
-        {loading ? 'Submitting...' : 'Submit Order'}
+        {loading ? "Submitting..." : "Submit Order"}
       </button>
     </form>
   );

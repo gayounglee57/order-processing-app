@@ -8,10 +8,8 @@ export default function App() {
 
   useEffect(() => {
     fetch(`${API_BASE}/orders`)
-      .then((r) => r.json())
-      .then((data: Order[]) => {
-        setOrders(data);
-      });
+      .then((result) => result.json())
+      .then((data: Order[]) => setOrders(data));
 
     const ws = new WebSocket(WS_URL);
     wsRef.current = ws;

@@ -9,3 +9,9 @@ export type Order = {
   status: OrderStatus;
   createdAt: number;
 };
+
+export enum WS_EVENT {
+  INITIAL_ORDERS = "initialOrders",
+  ORDER_CREATED = "orderCreated",
+  ORDER_UPDATED = "orderUpdated",
+}

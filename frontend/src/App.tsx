@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Order } from "./types";
+import { Order, WS_EVENT } from "./types";
 import { API_BASE, WS_URL } from "./constants";
 import OrderForm from "./components/OrderForm";
 import OrdersList from "./components/OrdersList";
@@ -19,14 +19,21 @@ export default function App() {
     ws.addEventListener("message", (e) => {
       try {
         const { event, payload } = JSON.parse(e.data);
-        if (event === "initialOrders") {
-          setOrders(payload);
-        } else if (event === "orderCreated") {
-          setOrders((prev) => [...prev, payload]);
-        } else if (event === "orderUpdated") {
-          setOrders((prev) =>
-            prev.map((order) => (order.id === payload.id ? payload : order))
-          );
+
+        switch (event) {
+          case WS_EVENT.INITIAL_ORDERS:
+            setOrders(payload);
+            break;
+          case WS_EVENT.ORDER_CREATED:
+            setOrders((prev) => [...prev, payload]);
+            break;
+          case WS_EVENT.ORDER_UPDATED:
+            setOrders((prev) =>
+              prev.map((order) => (order.id === payload.id ? payload : order))
+            );
+            break;
+          default:
+            console.warn("Unknown WS event:", event);
         }
       } catch (err) {
         console.error("ws parse", err);

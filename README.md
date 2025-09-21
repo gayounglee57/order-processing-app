@@ -1,6 +1,6 @@
-# Order Processing App (TypeScript — React frontend + Node backend)
+# Order Processing App (React frontend + Node backend)
 
-This is a minimal TypeScript implementation of the requested app: a React frontend with live status updates and a Node.js backend that automates order status transitions using mocked in-memory data.
+An Order Processing App that has a React frontend with live status updates and a Node.js backend that automates order status transitions using mock data.
 
 ## Quick start
 
